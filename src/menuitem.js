@@ -2,6 +2,16 @@ const { Menu, app } = require('electron')
 
 const template = [
     {
+        label: 'File',
+        submenu: [
+            {
+                role: 'quit',
+                accelerator: 'CmdOrCtrl+W',
+            }
+        ]
+    },
+    {
+
         label: 'Edit',
         submenu: [
             {
@@ -120,11 +130,6 @@ if (process.platform === 'darwin') {
     )
     // Window menu.
     template[3].submenu = [
-        {
-            label: 'Close',
-            accelerator: 'CmdOrCtrl+W',
-            role: 'close'
-        },
         {
             label: 'Minimize',
             accelerator: 'CmdOrCtrl+M',

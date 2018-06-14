@@ -55,9 +55,14 @@
           <div class="content">
             <div class="header">
               {{group.domain}}
+              <a class="ui blue circular label">{{group.emails.length}}</a>
             </div>
             <div class="description">
-              {{emailToString(group.emails)}}
+              <div class="ui form">
+                <div class="field">
+                  <textarea [ngModel]="emailToString(group.emails)"></textarea>
+                </div>
+              </div>
             </div>
           </div>
         </div>
