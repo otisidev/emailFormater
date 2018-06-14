@@ -26,6 +26,8 @@ function createWindow() {
         // clear from memory
         win = null;
     });
+
+    require("./menuitem");
 }
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows

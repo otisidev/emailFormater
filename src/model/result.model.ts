@@ -3,3 +3,7 @@ export class ResultModel {
     filteredEmails: string[];
     repeatedEmails: string[];
 }
+export class KeyValue {
+    domain: string;
+    emails: string[];
+}

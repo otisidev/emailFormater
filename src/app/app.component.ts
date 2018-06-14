@@ -1,5 +1,5 @@
-import { ResultModel } from './../model/result.model';
 import { Component, OnInit } from '@angular/core';
+import { KeyValue } from '../model/result.model';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +14,9 @@ export class AppComponent implements OnInit {
   initialEmails: string[];
   filteredEmails: string[];
   repeatedEmails: string[];
+  grouping: boolean;
+  grouped: KeyValue[];
+
   constructor() {
     this.content = '';
     this.initialEmails = [];
@@ -21,7 +24,8 @@ export class AppComponent implements OnInit {
     this.resultString = '';
     this.filteredEmails = [];
     this.repeatedEmails = [];
-
+    this.grouping = false;
+    this.grouped = [];
 
   }
 
@@ -47,7 +51,9 @@ export class AppComponent implements OnInit {
   }
 
   filterEmail() {
+    this.loading = true;
     this.filteredEmails = [];
+    this.grouped = [];
     this.repeatedEmails = [];
     this.resultString = '';
     this.onChange();
@@ -61,10 +67,34 @@ export class AppComponent implements OnInit {
     this.resultString = this.filteredEmails.map(item => {
       return item.trim();
     }).join(',');
+    this.loading = false;
   }
 
   // check if email has been added to the list
   hasBeenAdded(email: string): boolean {
     return this.filteredEmails.indexOf(email) === -1;
+  }
+  // convert list of email to csv
+  emailToString(emails: string[]) {
+    return emails.map(item => {
+      return item.trim();
+    }).join(',');
+  }
+
+  cleanGroup() {
+    this.grouping = true;
+    const groups = Object.create(null),
+      grouped = [];
+
+    this.filteredEmails.forEach(function (o) {
+      const domain = o.split('@')[1];
+      if (!groups[domain]) {
+        groups[domain] = [];
+        grouped.push({ domain: domain, emails: groups[domain] });
+      }
+      groups[domain].push(o);
+    });
+    this.grouped = grouped;
+    this.grouping = false;
   }
 }

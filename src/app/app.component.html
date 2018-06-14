@@ -2,12 +2,12 @@
   <div class="ui stackable one column centered grid">
     <div class="column">
       <h2 class="ui header">
-        Email Formarter
+        Email Cleaner
         <div class="sub header">Search and remove duplicated email address and whitespace </div>
       </h2>
     </div>
     <div class="column">
-      <div class="ui padded segment">
+      <div [ngClass]="{'loading': loading}" class="ui padded segment">
         <div class="ui form">
           <div class="equal width fields">
             <div class="field">
@@ -40,8 +40,27 @@
     </div>
     <div class="column">
       <div class="ui right aligned segment">
-        <button (click)="filterEmail()" class="ui basic primary button">Start Scan</button>
+        <button (click)="cleanGroup()" [ngClass]="{'disabled': !resultString, 'loading': grouping}" class="ui primary right labeled icon button">
+          <i class="object group icon"></i>
+          Group Email By Domain</button>
+        <button (click)="filterEmail()" [ngClass]="{'disabled': !content, 'loading': loading && content}" class="ui positive right labeled icon button">
+          <i class="search icon"></i>
+          Start Search
+        </button>
+      </div>
+    </div>
+    <div class="one column centered row">
+      <div class="column" *ngFor="let group of grouped">
+        <div class="ui fluid card">
+          <div class="content">
+            <div class="header">
+              {{group.domain}}
+            </div>
+            <div class="description">
+              {{emailToString(group.emails)}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
