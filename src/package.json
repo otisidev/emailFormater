@@ -1,0 +1,10 @@
+{
+    "name": "email-cleaner",
+    "version": "1.0.0",
+    "license": "MIT",
+    "author": "Otis Chiemezie <otishenry@live.com>",
+    "email": "otishenry@live.com",
+    "productName": "Email Cleaner",
+    "description": "Removed duplicated email address",
+    "main": "electron-main.js"
+}

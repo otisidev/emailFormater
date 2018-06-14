@@ -1,17 +1,22 @@
 {
-  "name": "email-formater",
+  "name": "email-cleaner",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "main.js",
-  "author": "Otis Chiemezie",
+  "author": "Otis Chiemezie <otishenry@live.com>",
+  "email": "otishenry@live.com",
+  "productName": "Email Cleaner",
+  "description": "Removed duplicated email address",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "test": "ng test",
+    "test": "electron build",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "ng build --prod & electron ."
+    "electron": "ng build --prod & electron .",
+    "dist": "build",
+    "pack": "build --dir",
+    "package-win": "electron-packager . email-cleaner --overwrite --platform=win32 --arch=ia32 asar=false --prune=true --out=release-builds --version-string.CompanyName=Xandrux Technosystems Nig --version-string.FileDescription=CE --version-string.ProductName=\"Email Cleaner\""
   },
   "private": true,
   "dependencies": {
@@ -26,7 +31,40 @@
     "@angular/router": "^5.2.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.5.6",
+    "semantic-ui-css": "^2.3.1",
     "zone.js": "^0.8.19"
+  },
+  "build": {
+    "appId": "com.xandrux.emailcleaner",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "build/icon.ico"
+    },
+    "directories": {
+      "buildResources": "build",
+      "app": "build",
+      "output": "build"
+    }
   },
   "devDependencies": {
     "@angular/cli": "1.6.8",

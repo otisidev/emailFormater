@@ -1,20 +1,47 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="ui container m-t-m">
+  <div class="ui stackable one column centered grid">
+    <div class="column">
+      <h2 class="ui header">
+        Email Formarter
+        <div class="sub header">Search and remove duplicated email address and whitespace </div>
+      </h2>
+    </div>
+    <div class="column">
+      <div class="ui padded segment">
+        <div class="ui form">
+          <div class="equal width fields">
+            <div class="field">
+              <label>Paste Email Address here</label>
+              <textarea (change)="onChange()" [(ngModel)]="content" rows="20"></textarea>
+            </div>
+            <div class="field">
+              <label>Result</label>
+              <textarea [(ngModel)]="resultString" rows="20"></textarea>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui labels">
+              <a class="ui blue label">
+                Total Email
+                <div class="detail">{{initialEmails.length}}</div>
+              </a>
+              <a class="ui orange label">
+                Duplicates
+                <div class="detail">{{repeatedEmails.length}}</div>
+              </a>
+              <a class="ui green right floated label">
+                Results
+                <div class="detail">{{filteredEmails.length}}</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui right aligned segment">
+        <button (click)="filterEmail()" class="ui basic primary button">Start Scan</button>
+      </div>
+    </div>
+  </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-

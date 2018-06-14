@@ -6,10 +6,13 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "build",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "icon.png",
+        "package.json",
+        "electron-main.js"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -19,9 +22,13 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "../node_modules/semantic-ui-css/semantic.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/semantic-ui-css/semantic.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
@@ -56,6 +63,7 @@
   "defaults": {
     "styleExt": "css",
     "component": {
-      "inlineStyle": true}
+      "inlineStyle": true
+    }
   }
 }

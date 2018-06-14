@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
+.m-t-l {
+    margin-top: 10rem;
+}
+
+.m-t-m {
+    margin-top: 4rem;
+}
+
+body {
+    background-color: #D6F2F2;
+}

@@ -5,9 +5,11 @@
 /dist-server
 /tmp
 /out-tsc
-
+/release-builds
+/.gitingore
 # dependencies
 /node_modules
+/build
 
 # IDEs and editors
 /.idea
