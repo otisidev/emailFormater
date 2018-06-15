@@ -1,6 +1,5 @@
 {
   "name": "email-cleaner",
-  "version": "1.0.1",
   "license": "MIT",
   "author": "Otis Chiemezie <otishenry@live.com>",
   "email": "otishenry@live.com",
@@ -10,7 +9,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --prod",
-    "test": "electron build",
+    "test": "ng build --prod & electron build",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "electron": "ng build --prod & electron .",

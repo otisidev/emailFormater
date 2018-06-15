@@ -39,8 +39,13 @@ export class AppComponent implements OnInit {
         .split(',')
         .filter(item => item !== null)
         .map(item => {
-          return item.endsWith('.') ? item.slice(0, -1) : item.trim();
-        });
+          item = item.trim();
+          let items = item.endsWith('.') ? item.slice(0, -1) : item.trim();
+          items = items.endsWith('-') ? items.slice(0, -1) : items.trim();
+          return items;
+        })
+        .filter(email => email.split('@').length > 1);
+
       // check for null before assigning new value
       if (filter) {
         this.initialEmails = filter;
@@ -67,7 +72,6 @@ export class AppComponent implements OnInit {
     this.resultString = this.filteredEmails.map(item => {
       return item.trim();
     }).join(',');
-    this.loading = false;
   }
 
   // check if email has been added to the list
@@ -95,6 +99,5 @@ export class AppComponent implements OnInit {
       groups[domain].push(o);
     });
     this.grouped = grouped;
-    this.grouping = false;
   }
 }
