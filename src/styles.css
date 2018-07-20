@@ -8,6 +8,14 @@
     margin-top: 4rem;
 }
 
+.m-b-m {
+    margin-bottom: 4rem;
+}
+
 body {
     background-color: #D6F2F2;
+}
+
+.hidden {
+    display: none;
 }

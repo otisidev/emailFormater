@@ -1,0 +1,101 @@
+<div class="ui stackable one column centered grid">
+  <div class="column" style="margin-top: 1rem;">
+    <h2 class="ui header">
+      Email Cleaner
+      <div class="sub header">Search and remove duplicated email address, removes none email address and whitespace </div>
+    </h2>
+
+  </div>
+  <div class="column">
+    <div [ngClass]="{'loading': loading && !resultString}" class="ui padded segment">
+      <div class="ui form">
+        <div class="equal width fields">
+          <div class="field">
+            <label>Paste Email Address here</label>
+            <textarea (change)="onChange()" [(ngModel)]="content" rows="20"></textarea>
+          </div>
+          <div class="field">
+            <label>Result</label>
+            <textarea readonly [ngModel]="resultString" rows="20"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui labels">
+            <a class="ui blue label">
+              Total Email
+              <div class="detail">{{initialEmails.length}}</div>
+            </a>
+            <a class="ui orange label">
+              Duplicates
+              <div class="detail">{{repeatedEmails.length}}</div>
+            </a>
+            <a class="ui green right floated label">
+              Results
+              <div class="detail">{{filteredEmails.length}}</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="ui right aligned segment">
+      <button (click)="cleanGroup()" [ngClass]="{'disabled': !resultString, 'loading': grouping && grouped.length < 1}" class="ui primary right labeled icon button">
+        <i class="object group icon"></i>
+        Group Email By Domain</button>
+      <button (click)="filterEmail()" [ngClass]="{'disabled': !content, 'loading': loading && !resultString}" class="ui positive right labeled icon button">
+        <i class="search icon"></i>
+        Start Search
+      </button>
+    </div>
+  </div>
+  <div class="one column centered row">
+    <div class="column" *ngFor="let group of hGroup; let i = index">
+      <div class="ui fluid card" *ngIf="group.emails.length > 10">
+        <div class="content">
+          <div class="header">
+            {{group.domain}}
+            <a class="ui blue circular label">{{group.emails.length}}</a>
+            <div class="ui right floated icon mini buttons">
+              <button (click)="openNewTab()" class="ui blue button">
+                <i class="globe icon"></i>
+              </button>
+              <button (click)="saveFileAs(group.domain,i)" class="ui teal button">
+                <i class="save icon"></i>
+              </button>
+            </div>
+          </div>
+          <div class="description">
+            <div class="ui form">
+              <div class="field">
+                <textarea rows="4" readonly [ngModel]="emailToString(group.emails)"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column" *ngIf="this.gResult">
+      <div class="ui fluid card">
+        <div class="content">
+          <div class="header">
+            Others
+            <button (click)="saveFileAs('others',-1)" class="ui right floated teal icon mini button">
+              <i class="save icon"></i>
+            </button>
+          </div>
+          <div class="description">
+            <div class="ui form">
+              <div class="field">
+                <textarea rows="8" readonly [ngModel]="this.gResult"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button title="Refresh" (click)="refresh()" class="circular ui icon red float button">
+    <i class="icon sync"></i>
+  </button>
+</div>

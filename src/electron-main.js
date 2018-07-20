@@ -1,6 +1,5 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const url = require("url");
 
 let win = null;
 
@@ -13,13 +12,8 @@ function createWindow() {
         darkTheme: true,
         center: true
     });
-    // const startUrl = process.env.ELECTRON_START_URL || url.format({
-    //     pathname: path.join(__dirname, 'index.html'),
-    //     protocol: 'file:',
-    //     slashes: true
-    // });
+
     win.loadFile(path.join(__dirname + '/index.html'));
-    // win.loadURL(startUrl)
     // win.webContents.openDevTools();
 
     win.on('closed', () => {
