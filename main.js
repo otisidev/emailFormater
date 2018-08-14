@@ -13,14 +13,14 @@ function createWindow() {
         darkTheme: true,
         center: true
     });
-    const startUrl = process.env.ELECTRON_START_URL || url.format({
-        pathname: path.join(__dirname, '/dist/index.html'),
-        protocol: 'file:',
-        slashes: true
-    });
-    // win.loadFile(path.join(__dirname + '/dist/index.html'));
-    win.loadURL(startUrl)
-    win.webContents.openDevTools();
+    // const startUrl = process.env.ELECTRON_START_URL || url.format({
+    //     pathname: path.join(__dirname, '/dist/index.html'),
+    //     protocol: 'file:',
+    //     slashes: true
+    // });
+    win.loadFile(path.join(__dirname + '/dist/index.html'));
+    // win.loadURL(startUrl)
+    // win.webContents.openDevTools();
     win.on('closed', () => {
 
         // clear from memory

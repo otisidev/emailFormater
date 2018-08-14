@@ -1,10 +1,10 @@
 {
     "name": "email-cleaner",
-    "version": "1.0.6",
+    "version": "1.0.8",
     "license": "MIT",
     "author": "Otis Chiemezie <otishenry@live.com>",
     "email": "otishenry@live.com",
     "productName": "Email Cleaner",
-    "description": "Removed duplicated email address",
+    "description": "Removed duplicated email address, verify email address, and filter out some emails",
     "main": "electron-main.js"
 }
