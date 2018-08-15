@@ -21,7 +21,7 @@ function createWindow() {
         win = null;
     });
 
-    require("./menuitem");
+    // require("./menuitem");
     // require('./server');
 }
 // This method will be called when Electron has finished

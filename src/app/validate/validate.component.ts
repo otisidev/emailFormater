@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { VerifactionService } from '../verifaction.service';
+import { saveAs } from 'file-saver/FileSaver';
+import { Subscription } from 'rxjs/Subscription';
+// tslint:disable-next-line:import-blacklist
+import { Observable } from 'rxjs/Rx';
 
+declare let $: any;
 @Component({
   selector: 'app-validate',
   templateUrl: './validate.component.html',
@@ -23,6 +28,14 @@ export class ValidateComponent implements OnInit {
   failed: string[];
   failedValue: string;
 
+  // time
+  ticks = 0;
+  minutesDisplay = 0;
+  hoursDisplay = 0;
+  secondsDisplay = 0;
+
+  sub: Subscription;
+
   constructor(private service: VerifactionService) {
     this.input = '';
     this.reset();
@@ -33,12 +46,55 @@ export class ValidateComponent implements OnInit {
     this.total = 0;
     this.failed = [];
     this.failedValue = '';
+
+
   }
 
   ngOnInit() {
+    setTimeout(this.pregressing(), 50);
   }
+  pregressing() {
+
+    $('#prostatus')
+      .progress('increment');
+  }
+  startTime() {
+    const timer = Observable.timer(1, 1000);
+    this.sub = timer.subscribe(
+      t => {
+        this.ticks = t;
+
+        this.secondsDisplay = this.getSeconds(this.ticks);
+        this.minutesDisplay = this.getMinutes(this.ticks);
+        this.hoursDisplay = this.getHours(this.ticks);
+        this.formatTime();
+      }
+    );
+  }
+
+  stopTime() {
+    this.sub.unsubscribe();
+  }
+
+  resetTime() {
+    this.ticks = 0;
+    this.minutesDisplay = 0;
+    this.hoursDisplay = 0;
+    this.secondsDisplay = 0;
+    this.formatTime();
+  }
+  // remove
+  formatTime(): string {
+    // TODO
+    return `${this.hoursDisplay ? this.hoursDisplay : '00'} : ${(this.minutesDisplay)
+      && (this.minutesDisplay <= 59) ? this.minutesDisplay : '00'}   :  ${(this.secondsDisplay)
+        && (this.secondsDisplay <= 59) ? this.secondsDisplay : '00'}`;
+
+  }
+
   beginValidation() {
     this.loading = true;
+    this.startTime();
     this.reset();
     this.threads = this.initialEmails;
     // allocate job to 4 different threads
@@ -95,6 +151,7 @@ export class ValidateComponent implements OnInit {
     this.validValue = [];
     this.invalidateValue = [];
     this.loading = false;
+    this.sent = 0;
   }
 
 
@@ -134,25 +191,34 @@ export class ValidateComponent implements OnInit {
         // check status
         this.sent++;
         this.count++;
+
         if (this.count === this.size) {
           this.count = 0;
           this.divideRequest();
         }
-
+        // this.pregressing();
         if (this.sent === this.total) {
           this.loading = false;
           alert('Email verfication completed: ' + this.sent);
           this.threads = [];
+          this.stopTime();
         }
       }, () => {
         // error
         this.failed.push(email);
         this.failedValue = this.emailToString(this.failed);
         this.sent++;
+        this.count++;
+        if (this.count === this.size) {
+          this.count = 0;
+          this.divideRequest();
+        }
         if (this.sent === this.total) {
           this.loading = false;
+          this.stopTime();
           alert('Failed! An error ocurred, please check you internet connection and try again');
         }
+        // this.pregressing();
       }, () => {
         // completed
       });
@@ -163,5 +229,34 @@ export class ValidateComponent implements OnInit {
     return emails.map(item => {
       return item.trim();
     }).join(',');
+  }
+
+  CancelRequest() {
+    if (confirm('Cancel all active request?')) {
+      this.loading = false;
+      this.sent = this.total;
+    }
+  }
+  saveFile() {
+    // build saveAs dialog box
+    const filename = `valid-email${this.validValue.length}.csv`;
+    const blob = new Blob([this.valid], { type: 'text/csv;charset=utf-8' });
+    saveAs(blob, filename);
+  }
+
+  private getSeconds(ticks: number) {
+    return this.pad(ticks % 60);
+  }
+
+  private getMinutes(ticks: number) {
+    return this.pad((Math.floor(ticks / 60)) % 60);
+  }
+
+  private getHours(ticks: number) {
+    return this.pad(Math.floor((ticks / 60) / 60));
+  }
+
+  private pad(digit: any) {
+    return digit <= 9 ? '0' + digit : digit;
   }
 }
