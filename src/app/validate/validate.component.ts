@@ -21,7 +21,7 @@ export class ValidateComponent implements OnInit {
   loading: boolean;
   initialEmails: string[];
   count = 0;
-  size = 10;
+  size = 50;
   threads: string[];
   sent: number;
   total: number;
@@ -97,8 +97,6 @@ export class ValidateComponent implements OnInit {
     this.startTime();
     this.reset();
     this.threads = this.initialEmails;
-    // allocate job to 4 different threads
-    // check if total email is greater than 3
     this.divideRequest();
   }
 
@@ -152,6 +150,7 @@ export class ValidateComponent implements OnInit {
     this.invalidateValue = [];
     this.loading = false;
     this.sent = 0;
+    this.resetTime();
   }
 
 
@@ -235,6 +234,7 @@ export class ValidateComponent implements OnInit {
     if (confirm('Cancel all active request?')) {
       this.loading = false;
       this.sent = this.total;
+      this.stopTime();
     }
   }
   saveFile() {
