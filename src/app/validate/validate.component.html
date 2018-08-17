@@ -26,11 +26,10 @@
                   </h3>
                 </div>
                 <div class="six wide field">
-                  <div id="prostatus" [attr.data-value]="sent" [attr.data-total]="total" [ngClass]="{'active': loading}" class="ui  indicating progress">
-                    <div class="bar">
-                      <div class="progress"></div>
+                  <div class="wrapper">
+                    <div class="progress-bar">
+                      <span class="progress-bar-fill" [style.width]="getPercentSent()" [innerHtml]="getPercentSent()"></span>
                     </div>
-                    <div class="label">Verifing Emails</div>
                   </div>
                 </div>
               </div>
@@ -96,7 +95,7 @@
           <div class="ui form">
             <div class="field">
               <label>Failed Request</label>
-              <textarea (change)="onChange()" placeholder="Paste Email here.." rows="6" [(ngModel)]="failedValue"></textarea>
+              <textarea readonly placeholder="failed Email goes here.." rows="6" [ngModel]="failedValue"></textarea>
             </div>
             <div class="field">
               <a class="ui red label">Failed: {{failed.length}}</a>

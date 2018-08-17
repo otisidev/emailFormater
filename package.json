@@ -7,7 +7,7 @@
     "email": "otishenry@live.com"
   },
   "productName": "Email Cleaner",
-  "description": "Removed duplicated email address",
+  "description": "Removed duplicated email address, verify email address, and filter out some emails",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

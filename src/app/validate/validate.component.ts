@@ -1,18 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { VerifactionService } from '../verifaction.service';
-import { saveAs } from 'file-saver/FileSaver';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit } from "@angular/core";
+import { VerifactionService } from "../verifaction.service";
+import { saveAs } from "file-saver/FileSaver";
+import { Subscription } from "rxjs/Subscription";
 // tslint:disable-next-line:import-blacklist
-import { Observable } from 'rxjs/Rx';
+import { Observable } from "rxjs/Rx";
 
-declare let $: any;
 @Component({
-  selector: 'app-validate',
-  templateUrl: './validate.component.html',
+  selector: "app-validate",
+  templateUrl: "./validate.component.html",
   styles: []
 })
 export class ValidateComponent implements OnInit {
-
   valid: string;
   invalid: string;
   input: string;
@@ -21,7 +19,7 @@ export class ValidateComponent implements OnInit {
   loading: boolean;
   initialEmails: string[];
   count = 0;
-  size = 50;
+  size = 35;
   threads: string[];
   sent: number;
   total: number;
@@ -37,7 +35,7 @@ export class ValidateComponent implements OnInit {
   sub: Subscription;
 
   constructor(private service: VerifactionService) {
-    this.input = '';
+    this.input = "";
     this.reset();
     this.loading = false;
     this.initialEmails = [];
@@ -45,31 +43,27 @@ export class ValidateComponent implements OnInit {
     this.sent = 0;
     this.total = 0;
     this.failed = [];
-    this.failedValue = '';
-
-
+    this.failedValue = "";
   }
 
-  ngOnInit() {
-    setTimeout(this.pregressing(), 50);
-  }
-  pregressing() {
+  ngOnInit() {}
 
-    $('#prostatus')
-      .progress('increment');
+  getPercentSent() {
+    return this.sent > 0
+      ? `${Math.floor((this.sent / this.total) * 100)}%`
+      : "0%";
   }
+
   startTime() {
     const timer = Observable.timer(1, 1000);
-    this.sub = timer.subscribe(
-      t => {
-        this.ticks = t;
+    this.sub = timer.subscribe(t => {
+      this.ticks = t;
 
-        this.secondsDisplay = this.getSeconds(this.ticks);
-        this.minutesDisplay = this.getMinutes(this.ticks);
-        this.hoursDisplay = this.getHours(this.ticks);
-        this.formatTime();
-      }
-    );
+      this.secondsDisplay = this.getSeconds(this.ticks);
+      this.minutesDisplay = this.getMinutes(this.ticks);
+      this.hoursDisplay = this.getHours(this.ticks);
+      this.formatTime();
+    });
   }
 
   stopTime() {
@@ -86,10 +80,15 @@ export class ValidateComponent implements OnInit {
   // remove
   formatTime(): string {
     // TODO
-    return `${this.hoursDisplay ? this.hoursDisplay : '00'} : ${(this.minutesDisplay)
-      && (this.minutesDisplay <= 59) ? this.minutesDisplay : '00'}   :  ${(this.secondsDisplay)
-        && (this.secondsDisplay <= 59) ? this.secondsDisplay : '00'}`;
-
+    return `${this.hoursDisplay ? this.hoursDisplay : "00"} : ${
+      this.minutesDisplay && this.minutesDisplay <= 59
+        ? this.minutesDisplay
+        : "00"
+    }   :  ${
+      this.secondsDisplay && this.secondsDisplay <= 59
+        ? this.secondsDisplay
+        : "00"
+    }`;
   }
 
   beginValidation() {
@@ -102,8 +101,7 @@ export class ValidateComponent implements OnInit {
 
   // parpare request
   divideRequest() {
-    if (this.initialEmails.length !== this.sent) {
-
+    if (this.total !== this.sent) {
       if (this.threads.length > this.size) {
         const batch = this.threads.splice(0, this.size);
         batch.forEach(d => this.makeRequest(d));
@@ -112,26 +110,26 @@ export class ValidateComponent implements OnInit {
         this.threads.forEach(email => {
           this.makeRequest(email);
         });
-
       }
     } else {
-      alert('Email verfication completed: ' + this.sent);
-
+      this.loading = false;
+      this.stopTime();
+      // this.CancelRequest();
     }
   }
   onChange() {
     if (this.input) {
       // filter
       const filter = this.input
-        .split(',')
+        .split(",")
         .filter(item => item !== null)
         .map(item => {
           item = item.trim();
-          let items = item.endsWith('.') ? item.slice(0, -1) : item.trim();
-          items = items.endsWith('-') ? items.slice(0, -1) : items.trim();
+          let items = item.endsWith(".") ? item.slice(0, -1) : item.trim();
+          items = items.endsWith("-") ? items.slice(0, -1) : items.trim();
           return items;
         })
-        .filter(email => email.split('@').length > 1);
+        .filter(email => email.split("@").length > 1);
       // check for null before assigning new value
       if (filter) {
         this.initialEmails = filter;
@@ -144,29 +142,27 @@ export class ValidateComponent implements OnInit {
   }
 
   reset() {
-    this.valid = '';
-    this.invalid = '';
+    this.valid = "";
+    this.invalid = "";
     this.validValue = [];
     this.invalidateValue = [];
     this.loading = false;
     this.sent = 0;
+    this.failedValue = "";
+    this.failed = [];
     this.resetTime();
   }
 
-
   makeRequest(email: string) {
     this.loading = true;
-    this.service.verifyEmail(email)
-      .subscribe(doc => {
+    this.service.verifyEmail(email).subscribe(
+      doc => {
         // success
 
         if (doc.status === 200) {
           // done
           if (doc.data.wellFormed && doc.data.validDomain) {
-
             if (doc.data.validMailbox !== null) {
-
-
               if (doc.data.validMailbox) {
                 this.validValue.push(email);
                 this.valid = this.emailToString(this.validValue);
@@ -190,48 +186,61 @@ export class ValidateComponent implements OnInit {
         // check status
         this.sent++;
         this.count++;
+        this.getPercentSent();
 
-        if (this.count === this.size) {
+        if (this.count === this.size && this.sent !== this.total) {
           this.count = 0;
           this.divideRequest();
         }
         // this.pregressing();
         if (this.sent === this.total) {
           this.loading = false;
-          alert('Email verfication completed: ' + this.sent);
+          setTimeout(() => {
+            alert("Email verfication completed: " + this.sent);
+          }, 100);
           this.threads = [];
           this.stopTime();
         }
-      }, () => {
+      },
+      () => {
         // error
         this.failed.push(email);
         this.failedValue = this.emailToString(this.failed);
         this.sent++;
         this.count++;
-        if (this.count === this.size) {
+        this.getPercentSent();
+        if (this.count === this.size && this.sent !== this.total) {
           this.count = 0;
           this.divideRequest();
         }
         if (this.sent === this.total) {
           this.loading = false;
           this.stopTime();
-          alert('Failed! An error ocurred, please check you internet connection and try again');
+          setTimeout(() => {
+            alert(
+              "Failed! An error ocurred, please check you internet connection and try again"
+            );
+          }, 100);
         }
         // this.pregressing();
-      }, () => {
+      },
+      () => {
         // completed
-      });
+      }
+    );
   }
 
   // convert list of email to csv
   emailToString(emails: string[]) {
-    return emails.map(item => {
-      return item.trim();
-    }).join(',');
+    return emails
+      .map(item => {
+        return item.trim();
+      })
+      .join(",");
   }
 
   CancelRequest() {
-    if (confirm('Cancel all active request?')) {
+    if (confirm("Cancel all active request?")) {
       this.loading = false;
       this.sent = this.total;
       this.stopTime();
@@ -240,7 +249,7 @@ export class ValidateComponent implements OnInit {
   saveFile() {
     // build saveAs dialog box
     const filename = `valid-email${this.validValue.length}.csv`;
-    const blob = new Blob([this.valid], { type: 'text/csv;charset=utf-8' });
+    const blob = new Blob([this.valid], { type: "text/csv;charset=utf-8" });
     saveAs(blob, filename);
   }
 
@@ -249,14 +258,14 @@ export class ValidateComponent implements OnInit {
   }
 
   private getMinutes(ticks: number) {
-    return this.pad((Math.floor(ticks / 60)) % 60);
+    return this.pad(Math.floor(ticks / 60) % 60);
   }
 
   private getHours(ticks: number) {
-    return this.pad(Math.floor((ticks / 60) / 60));
+    return this.pad(Math.floor(ticks / 60 / 60));
   }
 
   private pad(digit: any) {
-    return digit <= 9 ? '0' + digit : digit;
+    return digit <= 9 ? "0" + digit : digit;
   }
 }
