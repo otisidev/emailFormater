@@ -20,7 +20,6 @@ export class ValidateComponent implements OnInit {
   initialEmails: string[];
   count = 0;
   size = 35;
-  threads: string[];
   sent: number;
   total: number;
   failed: string[];
@@ -39,7 +38,6 @@ export class ValidateComponent implements OnInit {
     this.reset();
     this.loading = false;
     this.initialEmails = [];
-    this.threads = [];
     this.sent = 0;
     this.total = 0;
     this.failed = [];
@@ -95,19 +93,18 @@ export class ValidateComponent implements OnInit {
     this.loading = true;
     this.startTime();
     this.reset();
-    this.threads = this.initialEmails;
     this.divideRequest();
   }
 
   // parpare request
   divideRequest() {
     if (this.total !== this.sent) {
-      if (this.threads.length > this.size) {
-        const batch = this.threads.splice(0, this.size);
+      if (this.initialEmails.length > this.size) {
+        const batch = this.initialEmails.splice(0, this.size);
         batch.forEach(d => this.makeRequest(d));
       } else {
         //  send all at once
-        this.threads.forEach(email => {
+        this.initialEmails.forEach(email => {
           this.makeRequest(email);
         });
       }
