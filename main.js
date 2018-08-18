@@ -8,27 +8,28 @@ function createWindow() {
     // create new window
     win = new BrowserWindow({
         height: 600,
-        width: 800
+        width: 800,
+        icon: path.join(__dirname + '/dist/icon.png'),
+        darkTheme: true,
+        center: true
     });
-
-    // load file
-    win.loadURL(
-        url.format({
-            pathname: path.join(__dirname + 'dist/index.htnl'),
-            protocol: 'file:',
-            slashes: true
-        })
-    );
-
+    // const startUrl = process.env.ELECTRON_START_URL || url.format({
+    //     pathname: path.join(__dirname, '/dist/index.html'),
+    //     protocol: 'file:',
+    //     slashes: true
+    // });
+    win.loadFile(path.join(__dirname + '/dist/index.html'));
+    // win.loadURL(startUrl)
+    // win.webContents.openDevTools();
     win.on('closed', () => {
 
         // clear from memory
         win = null;
-    })
+    });
 }
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows
-app.on('ready', createWindow());
+app.on('ready', createWindow);
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

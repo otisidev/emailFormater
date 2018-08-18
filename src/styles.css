@@ -1,1 +1,53 @@
 /* You can add global styles to this file, and also import other style files */
+
+.m-t-l {
+    margin-top: 10rem;
+}
+
+.m-t-m {
+    margin-top: 4rem;
+}
+
+.m-b-m {
+    margin-bottom: 4rem;
+}
+
+body {
+    background-color: rgb(222, 231, 231);
+}
+
+.hidden {
+    display: none;
+}
+
+.wrapper {
+    width: 100%;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #555;
+    /* padding: 3px; */
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+    -moz-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 -1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.progress-bar-fill {
+    display: block;
+    height: 24px;
+    color: white;
+    text-align: right;
+    font-size: 1rem;
+    padding: 2px 4px;
+    background-color: rgb(43, 194, 83);
+    border-radius: 3px;
+    transition: width 500ms ease-in-out;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}

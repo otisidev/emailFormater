@@ -1,0 +1,108 @@
+<div class="ui stackable one column centered grid">
+  <div class="one column centered row">
+    <div class="column" style="margin-top: 1rem; margin-bottom: 1rem;">
+      <h2 class="ui header">Email Verification
+        <div class="sub header">Checks existence of email addresses </div>
+      </h2>
+    </div>
+    <div class="column">
+      <div class="ui fluid card">
+        <div class="content">
+          <div class="ui form">
+            <div class="field">
+              <textarea (change)="onChange()" placeholder="Paste Email here.." rows="10" [(ngModel)]="input"></textarea>
+            </div>
+            <div class="field">
+              <div class="fields">
+                <div class="four wide field">
+                  <div class="ui labels">
+                    <a class="ui brown label">Total: {{total}}</a>
+                    <a class="ui green label">Verified: {{sent}}</a>
+                  </div>
+                </div>
+                <div class="six wide field">
+                  <h3 class="ui teal header">{{formatTime()}}
+                    <div class="sub header">Duration</div>
+                  </h3>
+                </div>
+                <div class="six wide field">
+                  <div class="wrapper">
+                    <div class="progress-bar">
+                      <span class="progress-bar-fill" [style.width]="getPercentSent()" [innerHtml]="getPercentSent()"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui right aligned segment">
+        <button (click)="beginValidation()" [ngClass]="{'disabled': !input || loading, 'loading': loading }" class="ui green right labeled icon button">
+          <i class="filter icon"></i>
+          Start Verification
+        </button>
+        <button class='ui red button' [ngClass]="{'disabled':loading}" (click)="reset()">
+          Reset
+        </button>
+        <button class='ui red button' *ngIf="loading" (click)="CancelRequest()">
+          Cancel Request
+        </button>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui fluid card">
+        <div class="content">
+          <div class="description">
+            <div class="ui form">
+              <div class="equal width fields">
+                <div class="field">
+                  <div class="ui form">
+                    <div class="field">
+                      <label>Valid Email</label>
+                      <textarea readonly placeholder="Result.." rows="10" [ngModel]="valid"></textarea>
+                    </div>
+                    <div class="field" style="margin-top: 1rem;">
+                      <div class="ui labels">
+                        <a class="ui green label">Total: {{validValue.length}}</a>
+                        <a *ngIf="!loading && valid" (click)="saveFile()" class="ui brown label">Save</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui form">
+                    <div class="field">
+                      <label> InValid Email</label>
+                      <textarea readonly placeholder="Result.." rows="10" [ngModel]="invalid"></textarea>
+                    </div>
+                    <div class="field" style="margin-top: 1rem;">
+                      <a class="ui yellow label">Total: {{invalidateValue.length}}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui fluid card">
+        <div class="content">
+          <div class="ui form">
+            <div class="field">
+              <label>Failed Request</label>
+              <textarea readonly placeholder="failed Email goes here.." rows="6" [ngModel]="failedValue"></textarea>
+            </div>
+            <div class="field">
+              <a class="ui red label">Failed: {{failed.length}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="ui stackable one column centered grid">
+  <div class="one column centered row">
+    <div class="column" style="margin-top: 1rem;">
+      <div class="ui header">
+        <h2>Email Filter</h2>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui fluid card">
+        <div class="content">
+          <div class="ui form">
+            <div class="field">
+              <textarea placeholder="Paste Email here.." rows="10" [(ngModel)]="emailToFilter"></textarea>
+            </div>
+            <div class="field">
+              <label for="filter">Email Domain to remove</label>
+              <input type="text" (keyup.enter)="filterSecondEmail()" name="filter" id="filter" placeholder="enter domain: example a.com, b.com"
+                [(ngModel)]="filter">
+            </div>
+            <div class="field">
+              <a class="ui green label">Total: {{oriArray.length}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui right aligned segment">
+        <button (click)="filterSecondEmail()" [ngClass]="{'disabled': !emailToFilter, 'loading': filtering }" class="ui primary right labeled icon button">
+          <i class="filter icon"></i>
+          Start Filter
+        </button>
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui fluid card">
+        <div class="content">
+          <div class="header">
+            Filtered Email
+            <a class="ui blue circular label">{{cleanedEmail.length}}</a>
+          </div>
+          <div class="description">
+            <div class="ui form">
+              <div class="field">
+                <textarea placeholder="Result.." rows="10" [ngModel]="cleanedEmailString"></textarea>
+              </div>
+              <div>
+                <a class="ui red label">Removed: {{oriArray.length - cleanedEmail.length }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
